@@ -83,6 +83,7 @@ lib$(LIB)_standard.a lib$(LIB)_profile.a lib$(LIB)_release.a lib$(LIB)_debug.a:
 ## Library Soft Link rule:
 libs libp libd libr:
 	@echo "Making Soft Link: $^ -> lib$(LIB).a"
+	cd ../ ; mkdir include ; find "." -name "*.h" -exec cp --parents "{}" "include" \;
 	@ln -sf $^ lib$(LIB).a
 
 ## Clean rule
@@ -92,6 +93,7 @@ allclean: clean
 clean:
 	rm -f $(EXEC) $(EXEC)_profile $(EXEC)_debug $(EXEC)_release $(EXEC)_static \
 	  $(COBJS) $(PCOBJS) $(DCOBJS) $(RCOBJS) *.core depend.mk 
+	rm -rf "$(MROOT)/include"
 
 ## Make dependencies
 depend.mk: $(CSRCS) $(CHDRS)
