@@ -82,9 +82,14 @@ lib$(LIB)_standard.a lib$(LIB)_profile.a lib$(LIB)_release.a lib$(LIB)_debug.a:
 
 ## Library Soft Link rule:
 libs libp libd libr:
-	@echo "Making Soft Link: $^ -> lib$(LIB).a"
-	cd ../ ; mkdir include ; find "." -name "*.h" -exec cp --parents "{}" "include" \;
-	@ln -sf $^ lib$(LIB).a
+	#@echo "Making Soft Link: $^ -> lib$(LIB).a"
+	#@ln -sf $^ lib$(LIB).a
+	cp $^ libglucose.a
+	cd ../ ; rm -rf include ; mkdir include ; find "." -name "*.h" -exec cp --parents "{}" "include" \;
+
+install:
+	sudo cp libglucose.a /usr/lib/
+	sudo cp -r ../include /usr/include/glucose
 
 ## Clean rule
 allclean: clean
@@ -106,6 +111,7 @@ depend.mk: $(CSRCS) $(CHDRS)
 		  cat $(MROOT)/$${dir}/depend.mk >> depend.mk; \
 	      fi; \
 	  done
+
 
 -include $(MROOT)/mtl/config.mk
 -include depend.mk
